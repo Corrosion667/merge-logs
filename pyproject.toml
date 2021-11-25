@@ -7,6 +7,9 @@ authors = ["Artem Nechai <lenikol95@mail.ru>"]
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
 
+[tool.poetry.scripts]
+merge-logs = "merge-logs.merge-logs:main"
+
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
