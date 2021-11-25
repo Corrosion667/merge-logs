@@ -74,7 +74,7 @@ def parse_jsonl(path: str) -> List[dict]:
             raise PermissionError(
                 "You don't have permission to read that file: {0}".format(path),
             )
-    raise ValueError('Unsupported extension of file')
+    raise ValueError('Unsupported extension of file: {0}'.format(path))
 
 
 def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
@@ -111,11 +111,11 @@ def main() -> None:
     args = parse_args()
     t0 = time.time()
     path1, path2, path_merged = args.first_file, args.second_file, args.output
-    try:
+    try:  # noqa: WPS229
         merge_logs(path1, path2, path_merged)
+        print(f'Merging finished in {time.time() - t0:0f} sec')  # noqa: WPS237, WPS305, E501
     except Exception as exc:
         print(str(exc))
-    print(f'Merging finished in {time.time() - t0:0f} sec')  # noqa: WPS237, WPS305, E501
 
 
 if __name__ == '__main__':
