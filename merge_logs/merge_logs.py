@@ -111,7 +111,10 @@ def main() -> None:
     args = parse_args()
     t0 = time.time()
     path1, path2, path_merged = args.first_file, args.second_file, args.output
-    merge_logs(path1, path2, path_merged)
+    try:
+        merge_logs(path1, path2, path_merged)
+    except Exception as exc:
+        print(str(exc))
     print(f'Merging finished in {time.time() - t0:0f} sec')  # noqa: WPS237, WPS305, E501
 
 
