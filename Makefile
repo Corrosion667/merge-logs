@@ -1,7 +1,7 @@
 install:
 	poetry install
 
-page-loader:
+merge-logs:
 	poetry run merge-logs
 
 test:
