@@ -27,7 +27,7 @@ def parse_jsonl(path):
     """
     file_extension = os.path.splitext(path)[-1].lower()
     if file_extension == '.jsonl':
-        try:
+        try:  # noqa: WPS229
             with open(path) as log_file:
                 logs = [json.loads(line) for line in log_file]
             return logs
@@ -62,7 +62,7 @@ def merge_logs(path1, path2, path_merged=default_path):
     try:
         with open(path_merged, 'w') as merged_file:
             for log in merged_logs:
-                merged_file.write(json.dumps(log) + '\n')
+                merged_file.write('{0}\n'.format(json.dumps(log)))
     except PermissionError:
         raise PermissionError(
             "You don't have permission to access this folder: {0}".format(
