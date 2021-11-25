@@ -7,13 +7,14 @@ import operator
 import os
 import pathlib
 import time
+from typing import List
 
 DEFAULT_FILENAME = 'merged.jsonl'
 default_folder = os.getcwd()
 default_path = os.path.join(default_folder, DEFAULT_FILENAME)
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     """Create CLI.
 
     Returns:
@@ -44,7 +45,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def parse_jsonl(path):
+def parse_jsonl(path: str) -> List[dict, dict]:
     """Parse file with logs as a python object.
 
     Args:
@@ -76,7 +77,7 @@ def parse_jsonl(path):
     raise ValueError('Unsupported extension of file')
 
 
-def merge_logs(path1, path2, path_merged=default_path):
+def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
     """Create a merged log file in a specified directory from two files.
 
     Args:
@@ -105,7 +106,7 @@ def merge_logs(path1, path2, path_merged=default_path):
         )
 
 
-def main():
+def main() -> None:
     """Execute the script."""
     args = parse_args()
     t0 = time.time()
