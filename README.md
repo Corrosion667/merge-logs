@@ -10,9 +10,6 @@
 ## **Logs merger** is a tool for merging two JSON log files.
 
 
-
-
-
 ### Running **as script**
 
 Just copy from that repo file *merge_logs.py* and run it as common python script with the following syntax:
@@ -23,9 +20,6 @@ Script also includes a shebang, so you can run it easier:
 ```bash
 ./merge_logs.py path/to/log1 path/to/log2 -o path/to/merged/log
 ```
-
-
-
 
 
 ### Running **as program**
