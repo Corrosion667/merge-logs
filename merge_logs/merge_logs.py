@@ -5,6 +5,7 @@ import json
 import operator
 import os
 import pathlib
+import time
 
 DEFAULT_FILENAME = 'merged.jsonl'
 default_folder = os.getcwd()
@@ -101,3 +102,12 @@ def merge_logs(path1, path2, path_merged=default_path):
                 os.path.dirname(path_merged),
             ),
         )
+
+
+def main():
+    """Execute the script."""
+    args = parse_args()
+    t0 = time.time()
+    path1, path2, path_merged = args.first_file, args.second_file, args.path_merged
+    merge_logs(path1, path2, path_merged)
+    print(f'Merging inished in {time.time() - t0:0f} sec')
