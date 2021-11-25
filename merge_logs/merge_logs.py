@@ -45,7 +45,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def parse_jsonl(path: str) -> List[dict, dict]:
+def parse_jsonl(path: str) -> List[dict]:
     """Parse file with logs as a python object.
 
     Args:
