@@ -68,7 +68,7 @@ def parse_jsonl(path: str) -> List[dict]:
             return logs
         except FileNotFoundError:
             raise FileNotFoundError(
-                'Please make sure that the {0} is correct path', format(path),
+                'Please make sure that the {0} is correct path'.format(path),
             )
         except PermissionError:
             raise PermissionError(
