@@ -62,7 +62,7 @@ def parse_jsonl(path: str) -> List[dict]:
     """
     file_extension = os.path.splitext(path)[-1].lower()
     if file_extension == '.jsonl':
-        try:  # noqa: WPS229
+        try:
             with open(path) as log_file:
                 logs = [json.loads(line) for line in log_file]
             return logs
@@ -111,7 +111,7 @@ def main() -> None:
     args = parse_args()
     t0 = time.time()
     path1, path2, path_merged = args.first_file, args.second_file, args.output
-    try:  # noqa: WPS229
+    try:
         merge_logs(path1, path2, path_merged)
         print(f'Merging finished in {time.time() - t0:0f} sec')  # noqa: WPS237, WPS305, E501
     except Exception as exc:
