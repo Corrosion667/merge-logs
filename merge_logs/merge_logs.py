@@ -1,5 +1,6 @@
 """This is a module for merging JSONLs."""
 
+import argparse
 import json
 import operator
 import os
@@ -8,6 +9,37 @@ import pathlib
 DEFAULT_FILENAME = 'merged.jsonl'
 default_folder = os.getcwd()
 default_path = os.path.join(default_folder, DEFAULT_FILENAME)
+
+
+def parse_args():
+    """Create CLI.
+
+    Returns:
+        arguments for script.
+    """
+    parser = argparse.ArgumentParser(description='Tool to merge log files.')
+
+    parser.add_argument(
+        'first_file',
+        type=str,
+        help='path to first log file',
+    )
+
+    parser.add_argument(
+        'second_file',
+        type=str,
+        help='path to second log file',
+    )
+
+    parser.add_argument(
+        '-o',
+        '--output',
+        type=str,
+        default=default_path,
+        help='desired path to merged log file',
+    )
+
+    return parser.parse_args()
 
 
 def parse_jsonl(path):
