@@ -14,11 +14,11 @@
 
 Just copy from that repo file *merge_logs.py* and run it as common python script with the following syntax:
 ```bash
-python3 merge_logs.py <path/to/log1> <path/to/log2> -o <path/to/merged/log>
+python3 merge_logs.py path/to/log1 path/to/log2 -o path/to/merged/log
 ```
 Script also includes a shebang, so you can run it easier:
 ```bash
-./merge_logs.py <path/to/log1> <path/to/log2> -o <path/to/merged/log>
+./merge_logs.py path/to/log1 path/to/log2 -o path/to/merged/log
 ```
 
 
@@ -30,7 +30,7 @@ pip install git+https://github.com/Corrosion667/merge-logs.git
 ```
 In that case, basic **Logs merger** syntax looks like this:
 ```bash
-merge-logs <path/to/log1> <path/to/log2> --output <path/to/merged/log>
+merge-logs path/to/log1 path/to/log2 --output path/to/merged/log
 ```
 *output* is an optional argument. By default, program will create file *merged.json* with merged logs in current working directory.
 
