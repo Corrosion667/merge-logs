@@ -61,20 +61,20 @@ def parse_jsonl(path: str) -> List[dict]:
 
     """
     file_extension = os.path.splitext(path)[-1].lower()
-    if file_extension == '.jsonl':
-        try:
-            with open(path) as log_file:
-                logs = [json.loads(line) for line in log_file]
-            return logs
-        except FileNotFoundError:
-            raise FileNotFoundError(
-                'Please make sure that the {0} is correct path'.format(path),
-            )
-        except PermissionError:
-            raise PermissionError(
-                "You don't have permission to read that file: {0}".format(path),
-            )
-    raise ValueError('Unsupported extension of file: {0}'.format(path))
+    if not file_extension == '.jsonl':
+        raise ValueError('Unsupported extension of file: {0}'.format(path))
+    try:
+        with open(path) as log_file:
+            logs = [json.loads(line) for line in log_file]
+        return logs
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            'Please make sure that the {0} is correct path'.format(path),
+        )
+    except PermissionError:
+        raise PermissionError(
+            "You don't have permission to read that file: {0}".format(path),
+        )
 
 
 def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
