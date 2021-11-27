@@ -45,6 +45,22 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def read_in_lines(file_object):
+    """Lazy function (generator) to read large file line by line.
+
+    Args:
+        file_object: opened file.
+
+    Yields:
+        Line of the log file.
+    """
+    while True:
+        line = file_object.readline()
+        if not line:
+            break
+        yield line
+
+
 def parse_jsonl(path: str) -> List[dict]:
     """Parse file with logs as a python object.
 
@@ -61,7 +77,7 @@ def parse_jsonl(path: str) -> List[dict]:
 
     """
     file_extension = os.path.splitext(path)[-1].lower()
-    if not file_extension == '.jsonl':
+    if file_extension != '.jsonl':
         raise ValueError('Unsupported extension of file: {0}'.format(path))
     try:
         with open(path) as log_file:
