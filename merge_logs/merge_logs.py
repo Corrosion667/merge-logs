@@ -81,7 +81,8 @@ def parse_jsonl(path: str) -> List[dict]:
         raise ValueError('Unsupported extension of file: {0}'.format(path))
     try:
         with open(path) as log_file:
-            logs = [json.loads(line) for line in log_file]
+            log_generator = read_in_lines(log_file)
+            logs = [json.loads(line) for line in log_generator]
         return logs
     except FileNotFoundError:
         raise FileNotFoundError(
