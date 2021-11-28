@@ -95,7 +95,7 @@ def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
             for log in merged_logs:
                 merged_file.write('{0}\n'.format(json.dumps(log)))
     except PermissionError:
-        raise PermissionError('You do not have enough accsess')
+        raise PermissionError('You do not have enough access')
     except FileNotFoundError:
         raise FileNotFoundError(
             'Please make sure that correct path to log file provided',
