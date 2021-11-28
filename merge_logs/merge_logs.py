@@ -3,11 +3,11 @@
 
 import argparse
 import json
-import operator
 import os
 import pathlib
 import time
-from typing import List
+from heapq import merge
+from operator import itemgetter
 
 DEFAULT_FILENAME = 'merged.jsonl'
 default_folder = os.getcwd()
@@ -58,17 +58,14 @@ def read_in_lines(file_object):
         line = file_object.readline()
         if not line:
             break
-        yield line
+        yield json.loads(line)
 
 
-def parse_jsonl(path: str) -> List[dict]:
-    """Parse file with logs as a python object.
+def open_jsonl(path: str) -> None:
+    """Open file with logs and check it.
 
     Args:
         path: path to file.
-
-    Returns:
-        Prased file as python's list.
 
     Raises:
         ValueError: if extension of file is unsupported.
@@ -80,10 +77,7 @@ def parse_jsonl(path: str) -> List[dict]:
     if file_extension != '.jsonl':
         raise ValueError('Unsupported extension of file: {0}'.format(path))
     try:
-        with open(path) as log_file:
-            log_generator = read_in_lines(log_file)
-            logs = [json.loads(line) for line in log_generator]
-        return logs
+        open(path)
     except FileNotFoundError:
         raise FileNotFoundError(
             'Please make sure that the {0} is correct path'.format(path),
@@ -92,6 +86,8 @@ def parse_jsonl(path: str) -> List[dict]:
         raise PermissionError(
             "You don't have permission to read that file: {0}".format(path),
         )
+    except OSError:
+        raise OSError('Unknow error acquired.')
 
 
 def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
@@ -108,19 +104,32 @@ def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
     pathlib.Path(os.path.dirname(path_merged)).mkdir(
         parents=True, exist_ok=True,
     )
-    first_logs, second_logs = parse_jsonl(path1), parse_jsonl(path2)
-    merged_logs = (first_logs + second_logs)
-    merged_logs.sort(key=operator.itemgetter('timestamp'))
+    first_file, second_file = open(path1), open(path2)
+    first_logs = read_in_lines(first_file)
+    second_logs = read_in_lines(second_file)
+    merged_logs = merge(
+        first_logs,
+        second_logs,
+        key=itemgetter('timestamp'),
+    )
     try:
         with open(path_merged, 'w') as merged_file:
             for log in merged_logs:
                 merged_file.write('{0}\n'.format(json.dumps(log)))
+            first_file.close()
+            second_file.close()
     except PermissionError:
+        first_file.close()
+        second_file.close()
         raise PermissionError(
-            "You don't have permission to access this folder: {0}".format(
+            "You don't have to access this folder: {0}".format(
                 os.path.dirname(path_merged),
             ),
         )
+    except OSError:
+        first_file.close()
+        second_file.close()
+        raise OSError('Unknow error acquired.')
 
 
 def main() -> None:
