@@ -13,7 +13,7 @@ def test_merge_logs_wrong_formats():
         )
 
 
-def test_merge_logs_wrong_pass():
+def test_merge_logs_wrong_path():
     """Do not allow to pass to script non-existent paths."""
     with pytest.raises(FileNotFoundError):
         merge_logs(
