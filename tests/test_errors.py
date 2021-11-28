@@ -5,6 +5,8 @@ import os
 import pytest
 from merge_logs.merge_logs import merge_logs
 
+UNACCESSABLE_RIGHTS = 000
+
 
 def test_merge_logs_wrong_formats(tmp_path):
     """Do not allow to parse unsupported formats.
@@ -42,10 +44,14 @@ def test_unaccessable(tmp_path):
     Args:
         tmp_path: temporary path for testing.
     """
+    unaccessable_path = os.path.join(tmp_path, 'check.jsonl')
+    with open(unaccessable_path, 'w') as test_file:
+        test_file.write('Hello, world!\n')
+    os.chmod(unaccessable_path, UNACCESSABLE_RIGHTS)
     result_path = os.path.join(tmp_path, 'result.jsonl')
     with pytest.raises(PermissionError):
         merge_logs(
-            'tests/fixtures/unaccessable.jsonl',
+            unaccessable_path,
             'tests/fixtures/1.jsonl',
             result_path,
         )
