@@ -34,3 +34,18 @@ def test_merge_logs_wrong_path(tmp_path):
             'tests/fixtures/1.jsonl',
             result_path,
         )
+
+
+def test_unaccessable(tmp_path):
+    """Do not allow to pass to script unaccessable files.
+
+    Args:
+        tmp_path: temporary path for testing.
+    """
+    result_path = os.path.join(tmp_path, 'result.jsonl')
+    with pytest.raises(PermissionError):
+        merge_logs(
+            'tests/fixtures/unaccessable.jsonl',
+            'tests/fixtures/1.jsonl',
+            result_path,
+        )
