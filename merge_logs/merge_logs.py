@@ -14,7 +14,7 @@ default_folder = os.getcwd()
 default_path = os.path.join(default_folder, DEFAULT_FILENAME)
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args() -> argparse.Namespace:  # pragma: no cover
     """Create CLI.
 
     Returns:
@@ -104,7 +104,7 @@ def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
         raise OSError('Unknown error took place')
 
 
-def main() -> None:
+def main() -> None:  # pragma: no cover
     """Execute the script."""
     args = parse_args()
     t0 = time.time()
@@ -116,5 +116,5 @@ def main() -> None:
         print(str(exc))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main()
