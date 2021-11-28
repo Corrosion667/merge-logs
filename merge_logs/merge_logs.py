@@ -53,7 +53,6 @@ def parse_jsonl(path: str) -> None:
 
     Raises:
         ValueError: if extension of file is unsupported.
-        FileNotFoundError: if file path is invalid.
 
     Yields:
         One log from log file.
@@ -61,15 +60,10 @@ def parse_jsonl(path: str) -> None:
     file_extension = os.path.splitext(path)[-1].lower()
     if file_extension != '.jsonl':
         raise ValueError('Unsupported extension of file: {0}'.format(path))
-    try:
-        with open(path) as log_file:
-            yield from (
-                json.loads(line)
-                for line in log_file
-            )
-    except FileNotFoundError:
-        raise FileNotFoundError(
-            'Please make sure that the {0} is correct path'.format(path),
+    with open(path) as log_file:
+        yield from (
+            json.loads(line)
+            for line in log_file
         )
 
 
@@ -83,6 +77,8 @@ def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
 
     Raises:
         PermissionError: if user don't have access.
+        FileNotFoundError: if file path is invalid.
+        OSError: another error happened.
     """
     pathlib.Path(os.path.dirname(path_merged)).mkdir(
         parents=True, exist_ok=True,
@@ -100,6 +96,12 @@ def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
                 merged_file.write('{0}\n'.format(json.dumps(log)))
     except PermissionError:
         raise PermissionError('You do not have enough accsess')
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            'Please make sure that correct path to log file provided',
+        )
+    except OSError:
+        raise OSError('Unknown error took place')
 
 
 def main() -> None:
