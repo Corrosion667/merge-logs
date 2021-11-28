@@ -54,8 +54,6 @@ def parse_jsonl(path: str) -> None:
     Raises:
         ValueError: if extension of file is unsupported.
         FileNotFoundError: if file path is invalid.
-        PermissionError: if user don't have access.
-        OSError: if antoher error took place.
 
     Yields:
         One log from log file.
@@ -73,12 +71,6 @@ def parse_jsonl(path: str) -> None:
         raise FileNotFoundError(
             'Please make sure that the {0} is correct path'.format(path),
         )
-    except PermissionError:
-        raise PermissionError(
-            "You don't have permission to read that file: {0}".format(path),
-        )
-    except OSError:
-        raise OSError('Unknow error acquired.')
 
 
 def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
@@ -107,11 +99,7 @@ def merge_logs(path1: str, path2: str, path_merged: str = default_path) -> None:
             for log in merged_logs:
                 merged_file.write('{0}\n'.format(json.dumps(log)))
     except PermissionError:
-        raise PermissionError(
-            "You don't have to access this folder: {0}".format(
-                os.path.dirname(path_merged),
-            ),
-        )
+        raise PermissionError('You do not have enough accsess')
 
 
 def main() -> None:
